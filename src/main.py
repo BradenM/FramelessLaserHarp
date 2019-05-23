@@ -1,7 +1,6 @@
 from machine import Pin, DAC, mem32
 from micropython import const
 import time
-import math
 
 # GPIO Registrar Addresses
 GPIO_REG = const(0x3ff44000)
@@ -11,15 +10,19 @@ GPIO_CLR = const(0xC)
 # Buck Voltage Control
 vCtrlPin = Pin(25, Pin.OUT)
 vCtrl = DAC(vCtrlPin, bits=8)
-vCtrl.write(0)
 
-# Speaker Driver & Laser Pin
-spLeftPin = Pin(16, Pin.OUT, value=0)
-spRightPin = Pin(17, Pin.OUT, value=0)
+# Laser Pin
 laserPin = Pin(21, Pin.OUT, value=1)
-spLeft = const(1 << 16)
-spRight = const(1 << 17)
 laserP = const(1 << 21)
+mem32[GPIO_REG + GPIO_CLR] ^= laserP
+
+# Speaker Pins
+spQ1 = const(1 << 16)
+spQ2 = const(1 << 17)
+spQ3 = const(1 << 26)
+spQ4 = const(1 << 27)
+mem32[GPIO_REG + GPIO_CLR] ^= sum([spQ1, spQ2, spQ3, spQ4])
+
 
 # Beam Step Points
 steps = [255, 0]
@@ -27,8 +30,6 @@ steps = [255, 0]
 # Initial Setup
 vCtrl.write(255)
 direction = 1
-spLeftPin.value(not direction)
-spRightPin.value(direction)
 
 
 print("Ready...")
@@ -38,13 +39,13 @@ while 1:
         mem32[GPIO_REG + GPIO_CLR] ^= laserP
         time.sleep_ms(10)
         vCtrl.write(i)
-        time.sleep_ms(25)
+        time.sleep_ms(250)
         mem32[GPIO_REG + GPIO_EN] ^= laserP
-        time.sleep_ms(100)
+        time.sleep_ms(1000)
     if direction:
-        mem32[GPIO_REG + GPIO_EN] ^= spRight
-        mem32[GPIO_REG + GPIO_CLR] ^= spLeft
+        mem32[GPIO_REG + GPIO_EN] ^= spQ1 + spQ4
+        mem32[GPIO_REG + GPIO_CLR] ^= spQ2 + spQ3
     else:
-        mem32[GPIO_REG + GPIO_EN] ^= spLeft
-        mem32[GPIO_REG + GPIO_CLR] ^= spRight
+        mem32[GPIO_REG + GPIO_CLR] ^= spQ1 + spQ4
+        mem32[GPIO_REG + GPIO_EN] ^= spQ2 + spQ3
     direction = not direction
