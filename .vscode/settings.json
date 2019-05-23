@@ -1,0 +1,18 @@
+{
+  "python.linting.enabled": true,
+
+  "python.autoComplete.extraPaths": ["/home/bradenmars/.micropy/stubs/esp32_LoBo_3_2_24",
+"/home/bradenmars/.micropy/stubs/esp32_1_10_0",
+"/home/bradenmars/.micropy/stubs/pycopy_frozen",
+"/home/bradenmars/.micropy/stubs/esp32_lobo_frozen"],
+  "python.autoComplete.typeshedPaths": ["/home/bradenmars/.micropy/stubs/esp32_LoBo_3_2_24",
+"/home/bradenmars/.micropy/stubs/esp32_1_10_0",
+"/home/bradenmars/.micropy/stubs/pycopy_frozen",
+"/home/bradenmars/.micropy/stubs/esp32_lobo_frozen"],
+  "python.analysis.typeshedPaths": ["/home/bradenmars/.micropy/stubs/esp32_LoBo_3_2_24",
+"/home/bradenmars/.micropy/stubs/esp32_1_10_0",
+"/home/bradenmars/.micropy/stubs/pycopy_frozen",
+"/home/bradenmars/.micropy/stubs/esp32_lobo_frozen"],
+
+  "python.linting.pylintEnabled": true
+}

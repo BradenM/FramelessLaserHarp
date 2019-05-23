@@ -1,0 +1,6 @@
+# Micropython ESP 32
+init-hook='import sys;from dotenv import load_dotenv;load_dotenv();import os;sys.path.insert(1,"/home/bradenmars/.micropy/stubs/esp32_1_10_0");sys.path.insert(1,"./lib")'
+
+disable = missing-docstring, line-too-long, trailing-newlines, broad-except, logging-format-interpolation, invalid-name, 
+        no-method-argument, assignment-from-no-return, too-many-function-args, unexpected-keyword-arg
+        # the 2nd  line deals with the limited information in the generated stubs.
